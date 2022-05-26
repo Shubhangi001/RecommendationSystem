@@ -5,6 +5,7 @@ from . import views
 app_name='recommend'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('index2', views.index2, name='index2'),
     path('displaymovie', views.displaymovie, name='displaymovie'),
 ]
 
