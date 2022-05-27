@@ -1,5 +1,5 @@
 from platform import release
-from typing_extensions import runtime
+# from typing_extensions import runtime
 from django.db import models
 from django.utils.translation import gettext as _
 # Create your models here.
