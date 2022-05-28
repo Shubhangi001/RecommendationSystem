@@ -5,8 +5,16 @@ from . import views
 app_name='recommend'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('index2', views.index2, name='index2'),
+    path('index', views.index, name='index'),
+    path('trending', views.trending, name='trending'),
     path('displaymovie', views.displaymovie, name='displaymovie'),
+    path('likedlist', views.likedlist, name='likedlist'),
+    path('watchlist', views.watchlist, name='watchlist'),
+    path('watchedlist', views.watchedlist, name='watchedlist'),
+    path('savedmovies', views.savedmovies, name='savedmovies'),
+    path('likedmovies', views.likedmovies, name='likedmovies'),
+    path('watchedmovies', views.watchedmovies, name='watchedmovies'),
+    path('nav', views.watchedmovies, name='watchedmovies'),
 ]
 
 if settings.DEBUG:
