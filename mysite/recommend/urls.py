@@ -11,10 +11,9 @@ urlpatterns = [
     path('likedlist', views.likedlist, name='likedlist'),
     path('watchlist', views.watchlist, name='watchlist'),
     path('watchedlist', views.watchedlist, name='watchedlist'),
-    path('savedmovies', views.savedmovies, name='savedmovies'),
-    path('likedmovies', views.likedmovies, name='likedmovies'),
-    path('watchedmovies', views.watchedmovies, name='watchedmovies'),
-    path('nav', views.watchedmovies, name='watchedmovies'),
+    path('savedmovies', views.savedhistory, name='savedmovies'),
+    path('likedmovies', views.likedhistory, name='likedmovies'),
+    path('watchedmovies', views.watchedhistory, name='watchedmovies'),
 ]
 
 if settings.DEBUG:

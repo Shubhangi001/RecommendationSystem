@@ -2,6 +2,7 @@ from cmath import cos
 from operator import itemgetter
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from numpy import equal
 import pandas as pd
 from . import models
 from sklearn.feature_extraction.text import CountVectorizer
@@ -37,37 +38,74 @@ for i in movie_sorted:
     movie_sorted_on_rating.append(i[0])
 #-----------------------------views starts here------------------------
 def index(request):
-    likedmovies=models.Liked_movies.objects.all()
     watchedmovies=models.Watched_movies.objects.all()
     searchedmovies=models.Searched_movies.objects.all()
+    savedmovies=models.Saved_movies.objects.all()
+    likedmovies=models.Liked_movies.objects.all()
     disp=[]
-    if(len(likedmovies)==0 and len(watchedmovies)==0 and len(searchedmovies)==0 ):
-        for i in range(0,30):
-            disp.append(movie_sorted_on_rating[i])
+    def get_title_from_index(index):
+        return df[df.index == index]["title"].values[0]
+    if(len(likedmovies)==0 and len(watchedmovies)==0 and len(searchedmovies)==0 and len(savedmovies)==0):
+        for i in range(0,50):
+            disp.append(get_title_from_index(movie_sorted_on_rating[i]))
     else:
-        for x in likedmovies:
-            def get_title_from_index(index):
-                return df[df.index == index]["title"].values[0]
-            # disp.append(get_title_from_index(x.movie_id_id))
-            # movie_user_likes = get_title_from_index(x.movie_id_id)
-        #     def get_index_from_title(title):
-        #         return df[df.title == title]["index"].values[0]
-        #     movie_index = get_index_from_title(movie_user_likes)
-            movie_index = x.movie_id_id
-            similar_movies = list(enumerate(cosine_sim[movie_index]))
-            i=0
-            sorted_similar_movies = sorted(similar_movies, key=lambda x:x[1], reverse=True)
-            for movie in sorted_similar_movies:
-                disp.append(movie[0])
-                i=i+1
-                if i>20:
-                    break
-            # print(get_title_from_index(movie[0]))
+        liked=[]
+        watched=[]
+        towatch=[]
+        searched=[]
+        def get_similar_movies(l):
+            res=[]
+            for x in l:
+                movie_index = x.movie_id_id
+                similar_movies = list(enumerate(cosine_sim[movie_index]))
+                i=0
+                sorted_similar_movies = sorted(similar_movies, key=lambda x:x[1], reverse=True)
+                temp=[]
+                for movie in sorted_similar_movies:
+                    temp.append(movie[0])
+                    i=i+1
+                    if i>20:
+                        break
+                if(len(temp)<15):
+                    for i in range(len(temp),15):
+                        temp.append(0)
+                res.append(temp)
+            return res
+        liked=get_similar_movies(likedmovies)
+        watched=get_similar_movies(watchedmovies)
+        towatch=get_similar_movies(savedmovies)
+        searched=get_similar_movies(searchedmovies)
+        for movie in range(0,15):
+            dicti={}
+            for movielist in liked:
+                if movielist[movie] != -1:
+                    if movielist[movie] in dicti:
+                        dicti[movielist[movie]]=dicti[movielist[movie]]+0.5
+                    else:
+                        dicti[movielist[movie]]=0
+            for movielist in towatch:
+                if movielist[movie] != -1:
+                    if movielist[movie] in dicti:
+                        dicti[movielist[movie]]=dicti[movielist[movie]]+0.3
+                    else:
+                        dicti[movielist[movie]]=0
+            for movielist in watched:
+                if movielist[movie] != -1:
+                    if movielist[movie] in dicti:
+                        dicti[movielist[movie]]=dicti[movielist[movie]]+0.3
+                    else:
+                        dicti[movielist[movie]]=0
+            for movielist in searched:
+                if movielist[movie] != -1:
+                    if movielist[movie] in dicti:
+                        dicti[movielist[movie]]=dicti[movielist[movie]]+0.3
+                    else:
+                        dicti[movielist[movie]]=0
+            maxrecommovie = max(dicti, key= lambda x: dicti[x])
+            disp.append(maxrecommovie)
     return render(request,'recommend/index.html',context={'moviedisp':disp,'likedmovies':likedmovies})
 def displaymovie(request):
     return render(request,'recommend/displaymovie.html')
-def index2(request):
-    return render(request,'recommend/index2.html')
 def likedlist(request):
     likedmovies=models.Liked_movies.objects.all()
         
@@ -93,20 +131,29 @@ def watchedlist(request):
             item=models.Watched_movies.objects.get_or_create(movie_id_id=int(movid))
         return HttpResponseRedirect('index')
     return HttpResponseRedirect('index')
-def savedmovies(request):
-    savedmovies=models.Saved_movies.objects.all()
-    return render(request,'recommend/history.html',context={'disp':savedmovies})
-def likedmovies(request):
-    likedmovies=models.Liked_movies.objects.all()
-    return render(request,'recommend/history.html',context={'disp':likedmovies})
-def watchedmovies(request):
+def savedhistory(request):
     watchedmovies=models.Watched_movies.objects.all()
-    return render(request,'recommend/history.html',context={'disp':watchedmovies})
+    likedmovies=models.Liked_movies.objects.all()
+    savedmovies=models.Saved_movies.objects.all()
+    return render(request,'recommend/history.html',context={'disp':savedmovies,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
+def likedhistory(request):
+    likedmovies=models.Liked_movies.objects.all()
+    watchedmovies=models.Watched_movies.objects.all()
+    savedmovies=models.Saved_movies.objects.all()
+    return render(request,'recommend/history.html',context={'disp':likedmovies,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
+def watchedhistory(request):
+    likedmovies=models.Liked_movies.objects.all()
+    savedmovies=models.Saved_movies.objects.all()
+    watchedmovies=models.Watched_movies.objects.all()
+    return render(request,'recommend/history.html',context={'disp':watchedmovies,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
 def trending(request):
+    likedmovies=models.Liked_movies.objects.values_list('movie_id_id')
+    savedmovies=models.Saved_movies.objects.all()
+    watchedmovies=models.Watched_movies.objects.all()
     disp=[]
     for i in range(0,30):
             disp.append(movie_sorted_on_rating[i])
-    return render(request,'recommend/history.html',context={'disp':disp})
+    return render(request,'recommend/history.html',context={'disp':disp,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
 
 
 #list for liked movies - movie id - bool liked - this needs to be stored in db as a table?

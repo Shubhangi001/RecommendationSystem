@@ -3,29 +3,20 @@
     
     <head>
     {% load static %}
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RecoMovie</title>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
     <link rel="stylesheet" href="{%static 'style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
+<body >
+
     {% include 'recommend/nav.html' %}
     {% comment %}  --------------------------sidebar--------------------- - {% endcomment %}
-    <div class="sidebar" >
-        <div class="shortcut-links">
-            <a href="index"><img src="static/images/home.png"  alt="" ><p>Home</p></a>
-            <a href=""><img src="static/images/explore.png" alt=""><p>Trending</p></a>
-            <hr>
-        </div>
-        <div class="subcribed-list">
-           <br>
-            <a href="watchedmovies"><img src="static/images/history.png" alt=""><p>Watch History</p></a>
-            <a href="likedmovies"><img src="static/images/like.png" alt=""><p>Liked Videos</p></a>
-            <a href="savedmovies"><img src="static/images/library.png" alt=""><p>Watch Later</p></a>
-        </div>
-    </div>
     {% comment %}  --------------------main---------------- --> {% endcomment %}
 
     <div class="content">
@@ -33,14 +24,22 @@
 <div id="result">
     
 </div>
+<!-- <script src="{%static 'script.js' %}"></script> -->
         <div class="list_content">
             {%for i in moviedisp %}
-            <div class="vid_list">
-                <a href="displaymovie"><img src="static/images/thumbnail1.png" alt="" class="thumbnail"></a>                             
+            
+            <!-- <div  onclick="getPoster()" class="vid_list" id="term" value= {{i}}   > -->
+            <div   class="vid_list" id="term" value= {{i}}   >
+<!-- <div id="poster"></div> -->
+                <!-- <span id="poster"></span> -->
+                    <img  src="static/images/thumbnail1.png" alt="" class="thumbnail">
+                <!-- </a>    
+                                          -->
+               
                 <div class="flex-div">
                     <img src="static/images/Jack.png" alt="">
                     <div class="vid-info">
-                        <a href="">{{ i }}</a>
+                    <strong>{{ i }}</strong>
                         <p>190 mins</p>
                         <p>&bull;  20-05-22</p>
                         <p>4/10 &#11088;  </p>
@@ -72,7 +71,7 @@
                 </div>
             </div>
             {%endfor %}
-          
+            
             
         </div>
     </div>
@@ -81,4 +80,5 @@
 
     <script src="{%static 'script.js' %}"></script>
 </body>
+
 </html>
