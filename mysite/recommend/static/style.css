@@ -1,7 +1,7 @@
 *{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; 
     font-family: 'poppins', sans-serif;
 }
 a{
@@ -186,6 +186,15 @@ nav{
  
 }
 
+.list_content_hist{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    grid-column-gap:16px ;
+    grid-row-gap: 30px;
+    margin-top: 15px;
+ 
+}
+
 
 .vid_list .thumbnail{
     width: 100%;
@@ -231,18 +240,6 @@ nav{
     overflow-y: scroll;
 }
 
-.play-video video{
-    width: 100%;
-
-}
-.play-video .tags a{
-    color: #0000ff;
-    font-size: 13px;
-}
-.play-video h3{
-    font-weight: 600;
-    font-size: 22px;
-}
 
 .iframeVideo{
     border-radius: 10px;
