@@ -6,8 +6,12 @@
     </div>
     <div class="nav-middle flex-div">
         <div class="search_box flex-div">
-            <input type="text" id= "search_input" placeholder="Search">
-            <img src="static/images/search.png" alt="">
+            <form method="post" action="search_movies">
+                {%csrf_token%}
+            <input type="text" id= "search_input">
+            <!-- <img src="static/images/search.png" alt=""> -->
+            <button  type="submit">Search</button>
+        </form>
         </div>
     </div>
     <div class="nav-right flex-div">

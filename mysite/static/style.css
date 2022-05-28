@@ -179,21 +179,21 @@ nav{
 
 .list_content{
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
     grid-column-gap:16px ;
     grid-row-gap: 30px;
     margin-top: 15px;
  
 }
 
- /* .list_content_hist{
+.list_content_hist{
     display: grid;
-    grid-template-columns: repeat(2,minmax(150px,2fr));
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
     grid-column-gap:16px ;
     grid-row-gap: 30px;
     margin-top: 15px;
  
-}  */
+}
 
 
 .vid_list .thumbnail{

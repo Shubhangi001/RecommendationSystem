@@ -7,23 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RecoMovie</title>
-    <script src="{%static 'script.js' %}"></script>
     <link rel="stylesheet" href="{%static 'style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     {% include 'recommend/nav.html' %}
-
+    
     <div class="content">
-{% comment %} <!-- ------------------------ video------------------------ --> {% endcomment %}
+        {% comment %} <!-- ------------------------ video------------------------ --> {% endcomment %}
 <div id="result">
     
 </div>
-        <div class="list_content_hist">
-            {%for i in disp reversed %} {% comment %} reverse order to print the one which was liked/watched/saved recently {% endcomment %}
-            <div class="vid_list">
-                <a href="displaymovie"><img src="static/images/thumbnail1.png" alt="" class="thumbnail"></a>                             
-                <div class="flex-div">
+<div class="list_content">
+    {%for i in disp reversed %} {% comment %} reverse order to print the one which was liked/watched/saved recently {% endcomment %}
+    <div class="vid_list">
+        <a href="displaymovie"><img src="static/images/thumbnail1.png" alt="" class="thumbnail"></a>                             
+        <div class="flex-div">
                     <img src="static/images/Jack.png" alt="">
                     <div class="vid-info">
                         <a href="">{{ i }}</a>
@@ -43,30 +42,31 @@
                         </form>
                         {%else%}
                         <button>Liked</button?
-                        {%endif%}
-
-                        <form action="watchlist" method="POST">
-                            {% csrf_token %}
-                      
-                        <button name="watchid" value="{{ i }}">   Save  </button>
-                    </form>
-                    <form action="watchedlist" method="POST">
-                        {% csrf_token %}
-                  
-                    <button name="watchedid" value="{{ i }}">   Watch  </button>
-                </form>
-                        <!-- <a href=""><img  src="static/images/like.png" style=" width: 25px; border-radius: 50%;margin-left: 120px;flex-wrap: wrap;"  alt=""></a>
-                        <br>
+                            {%endif%}
+                            
+                            <form action="watchlist" method="POST">
+                                {% csrf_token %}
+                                
+                                <button name="watchid" value="{{ i }}">   Save  </button>
+                            </form>
+                            <form action="watchedlist" method="POST">
+                                {% csrf_token %}
+                                
+                                <button name="watchedid" value="{{ i }}">   Watch  </button>
+                            </form>
+                            <!-- <a href=""><img  src="static/images/like.png" style=" width: 25px; border-radius: 50%;margin-left: 120px;flex-wrap: wrap;"  alt=""></a>
+                                <br>
                         <a href=""><img src="static/images/library.png" style=" width: 25px; border-radius: 50%;margin-left: 120px;flex-wrap: wrap;" alt=""></a> -->
-
+                        
                     </div>
                 </div>
             </div>
             {%endfor %}
-          
+            
             
         </div>
     </div>
-
+    
+    <script src="{%static 'script.js' %}"></script>
 </body>
 </html>

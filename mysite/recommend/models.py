@@ -24,7 +24,6 @@ class Movie(models.Model):
     director=models.CharField(_("director"),max_length=255)
 
 class Liked_movies(models.Model):
-    # movie_id=models.ForeignKey(Movie,on_delete=models.CASCADE,primary_key=True)
     movie_id=models.OneToOneField(Movie,on_delete=models.CASCADE)
     # liked=models.BooleanField(default=False)
 class Watched_movies(models.Model):

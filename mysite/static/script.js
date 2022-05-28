@@ -19,29 +19,29 @@ document.querySelector(".logo").addEventListener("click", () => {
 
 // -----------------------------------
 
-let searchInput = document.getElementById("search_input");
+// let searchInput = document.getElementById("search_input");
 
-searchInput.addEventListener("keydown", async function (event) {
-    if (event.code === "Enter") {
+// searchInput.addEventListener("keydown", async function (event) {
+//     if (event.code === "Enter") {
        
-            try {
-                let inp= searchInput.value;
+//             try {
+//                 let inp= searchInput.value;
         
-                let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${inp}&key=AIzaSyCWmsjslHkf5HrCvKjkSL-G89v3inCk-18&maxResults=40&order=viewCount&safeSearch=strict`);
-                let data = await res.json();
-                console.log(data.items);
-                appendvideos(data.items);
+//                 let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${inp}&key=AIzaSyCWmsjslHkf5HrCvKjkSL-G89v3inCk-18&maxResults=40&order=viewCount&safeSearch=strict`);
+//                 let data = await res.json();
+//                 console.log(data.items);
+//                 appendvideos(data.items);
         
-            } catch (error) {
-                console.log(error);
+//             } catch (error) {
+//                 console.log(error);
             
                 
-        }
-        document.querySelector(".banner").style.display = "none";
-        searchInput.value = '';
+//         }
+//         document.querySelector(".banner").style.display = "none";
+//         searchInput.value = '';
         
-    }
- });
+//     }
+//  });
 
 
 
@@ -97,6 +97,8 @@ searchInput.addEventListener("keydown", async function (event) {
 //     });
 // }
 
+
+// -------------------------------
 
 
 

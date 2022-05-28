@@ -14,6 +14,7 @@ urlpatterns = [
     path('savedmovies', views.savedhistory, name='savedmovies'),
     path('likedmovies', views.likedhistory, name='likedmovies'),
     path('watchedmovies', views.watchedhistory, name='watchedmovies'),
+    path('search_movies', views.search_movies, name='search_movies'),
 ]
 
 if settings.DEBUG:
