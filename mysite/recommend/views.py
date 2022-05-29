@@ -57,13 +57,28 @@ def index(request):
                             temp.append(0)
                     res.append(temp)                #list of list of similar movies for each history
                 return res
-    watchedmovies=models.Watched_movies.objects.all()
-    searchedmovies=models.Searched_movies.objects.all()
-    savedmovies=models.Saved_movies.objects.all()
-    likedmovies=models.Liked_movies.objects.all()
+    WatchedMovies=models.Watched_movies.objects.all()
+    SearchedMovies=models.Searched_movies.objects.all()
+    SavedMovies=models.Saved_movies.objects.all()
+    LikedMovies=models.Liked_movies.objects.all()
+    likedmovies=[]
+    savedmovies=[]
+    watchedmovies=[]
+    searchedmovies=[]
+    for i in LikedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        likedmovies.append(movie)
+    for i in WatchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        watchedmovies.append(movie)
+    for i in SearchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        searchedmovies.append(movie)
+    for i in SavedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        savedmovies.append(movie)
     disp=[]
-    def get_title_from_index(index):
-        return df[df.index == index]["title"].values[0]
+
     #if user hasn't given any input yet
     if(len(likedmovies)==0 and len(watchedmovies)==0 and len(searchedmovies)==0 and len(savedmovies)==0):
         for i in range(0,50):
@@ -74,35 +89,35 @@ def index(request):
         towatch=[]
         searched=[]
         
-        liked=get_similar_movies(likedmovies)
-        watched=get_similar_movies(watchedmovies)
-        towatch=get_similar_movies(savedmovies)
-        searched=get_similar_movies(searchedmovies)
+        liked=get_similar_movies(LikedMovies)
+        watched=get_similar_movies(WatchedMovies)
+        towatch=get_similar_movies(SavedMovies)
+        searched=get_similar_movies(SearchedMovies)
         for i in range(0,30):               #for each index find the movie which is most common in all giving 45% weightage
                                                 #to liked movies, 35% to saved movies, 15% to watched and 5% to searched
             dicti={}
             for movielist in liked:
                 if movielist[i] != -1:
                     if movielist[i] in dicti:
-                        dicti[movielist[i]]=dicti[movielist[i]]+0.945
+                        dicti[movielist[i]]=dicti[movielist[i]]+0.45
                     else:
                         dicti[movielist[i]]=0
             for movielist in towatch:
                 if movielist[i] != -1:
                     if movielist[i] in dicti:
-                        dicti[movielist[i]]=dicti[movielist[i]]+0.935
+                        dicti[movielist[i]]=dicti[movielist[i]]+0.35
                     else:
                         dicti[movielist[i]]=0
             for movielist in watched:
                 if movielist[i] != -1:
                     if movielist[i] in dicti:
-                        dicti[movielist[i]]=dicti[movielist[i]]+0.915
+                        dicti[movielist[i]]=dicti[movielist[i]]+0.15
                     else:
                         dicti[movielist[i]]=0
             for movielist in searched:
                 if movielist[i] != -1:
                     if movielist[i] in dicti:
-                        dicti[movielist[i]]=dicti[movielist[i]]+0.905
+                        dicti[movielist[i]]=dicti[movielist[i]]+0.05
                     else:
                         dicti[movielist[i]]=0
             p = max(dicti, key= lambda x: dicti[x]) 
@@ -110,7 +125,7 @@ def index(request):
             disp.append(maxrecommovie)
 
     disp=list(dict.fromkeys(disp))
-    return render(request,'recommend/index.html',context={'moviedisp':disp,'likedmovies':likedmovies})
+    return render(request,'recommend/index.html',context={'moviedisp':disp,'likedmovies':likedmovies,'savedmovies':savedmovies,'watchedmovies':watchedmovies})
 def displaymovie(request):
     return render(request,'recommend/displaymovie.html')
 def likedlist(request):
@@ -135,41 +150,121 @@ def watchedlist(request):
         return HttpResponseRedirect('index')
     return HttpResponseRedirect('index')
 def savedhistory(request):
-    watchedmovies=models.Watched_movies.objects.all()
-    likedmovies=models.Liked_movies.objects.all()
-    savedmovies=models.Saved_movies.objects.all()
-    disp=[]
-    for i in savedmovies:
+    WatchedMovies=models.Watched_movies.objects.all()
+    SearchedMovies=models.Searched_movies.objects.all()
+    SavedMovies=models.Saved_movies.objects.all()
+    LikedMovies=models.Liked_movies.objects.all()
+    likedmovies=[]
+    savedmovies=[]
+    watchedmovies=[]
+    searchedmovies=[]
+    for i in LikedMovies:
         movie=models.Movie.objects.get(id=i.movie_id_id)
-        disp.append(movie)
+        likedmovies.append(movie)
+    for i in WatchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        watchedmovies.append(movie)
+    for i in SearchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        searchedmovies.append(movie)
+    for i in SavedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        savedmovies.append(movie)
+    disp=savedmovies
     return render(request,'recommend/history.html',context={'disp':disp,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
 def likedhistory(request):
-    likedmovies=models.Liked_movies.objects.all()
-    watchedmovies=models.Watched_movies.objects.all()
-    savedmovies=models.Saved_movies.objects.all()
-    disp=[]
-    for i in likedmovies:
+    WatchedMovies=models.Watched_movies.objects.all()
+    SearchedMovies=models.Searched_movies.objects.all()
+    SavedMovies=models.Saved_movies.objects.all()
+    LikedMovies=models.Liked_movies.objects.all()
+    likedmovies=[]
+    savedmovies=[]
+    watchedmovies=[]
+    searchedmovies=[]
+    for i in LikedMovies:
         movie=models.Movie.objects.get(id=i.movie_id_id)
-        disp.append(movie)
+        likedmovies.append(movie)
+    for i in WatchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        watchedmovies.append(movie)
+    for i in SearchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        searchedmovies.append(movie)
+    for i in SavedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        savedmovies.append(movie)
+    disp=likedmovies
     return render(request,'recommend/history.html',context={'disp':disp,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
 def watchedhistory(request):
-    likedmovies=models.Liked_movies.objects.all()
-    savedmovies=models.Saved_movies.objects.all()
-    watchedmovies=models.Watched_movies.objects.all()
-    disp=[]
-    for i in watchedmovies:
+    WatchedMovies=models.Watched_movies.objects.all()
+    SearchedMovies=models.Searched_movies.objects.all()
+    SavedMovies=models.Saved_movies.objects.all()
+    LikedMovies=models.Liked_movies.objects.all()
+    likedmovies=[]
+    savedmovies=[]
+    watchedmovies=[]
+    searchedmovies=[]
+    for i in LikedMovies:
         movie=models.Movie.objects.get(id=i.movie_id_id)
-        disp.append(movie)
+        likedmovies.append(movie)
+    for i in WatchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        watchedmovies.append(movie)
+    for i in SearchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        searchedmovies.append(movie)
+    for i in SavedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        savedmovies.append(movie)
+    disp=watchedmovies
     return render(request,'recommend/history.html',context={'disp':disp,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
 def trending(request):
-    likedmovies=models.Liked_movies.objects.values_list('movie_id_id')
-    savedmovies=models.Saved_movies.objects.all()
-    watchedmovies=models.Watched_movies.objects.all()
+    WatchedMovies=models.Watched_movies.objects.all()
+    SearchedMovies=models.Searched_movies.objects.all()
+    SavedMovies=models.Saved_movies.objects.all()
+    LikedMovies=models.Liked_movies.objects.all()
+    likedmovies=[]
+    savedmovies=[]
+    watchedmovies=[]
+    searchedmovies=[]
+    for i in LikedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        likedmovies.append(movie)
+    for i in WatchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        watchedmovies.append(movie)
+    for i in SearchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        searchedmovies.append(movie)
+    for i in SavedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        savedmovies.append(movie)
+
     disp=[]
     for i in range(29,0,-1):
             disp.append(movie_sorted_on_rating[i])
     return render(request,'recommend/history.html',context={'disp':disp,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
 def search_movies(request):
+    WatchedMovies=models.Watched_movies.objects.all()
+    SearchedMovies=models.Searched_movies.objects.all()
+    SavedMovies=models.Saved_movies.objects.all()
+    LikedMovies=models.Liked_movies.objects.all()
+    likedmovies=[]
+    savedmovies=[]
+    watchedmovies=[]
+    searchedmovies=[]
+    for i in LikedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        likedmovies.append(movie)
+    for i in WatchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        watchedmovies.append(movie)
+    for i in SearchedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        searchedmovies.append(movie)
+    for i in SavedMovies:
+        movie=models.Movie.objects.get(id=i.movie_id_id)
+        savedmovies.append(movie)
     if(request.method=="POST"):
         searched=request.POST.get('searched')
         c1=Q(original_title__contains=searched) 
@@ -183,7 +278,7 @@ def search_movies(request):
             models.Searched_movies.objects.get_or_create(movie_id_id=movies[0].id)   #the first search query result is stored in searched movies
         else:
             return HttpResponseRedirect('index')
-        return render(request,'recommend/search.html',{'searched':searched,'movies':movies})
+        return render(request,'recommend/search.html',{'searched':searched,'movies':movies,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
     else:
         return HttpResponseRedirect('index')
 

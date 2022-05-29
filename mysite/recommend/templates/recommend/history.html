@@ -15,49 +15,9 @@
     
     <div class="content">
         {% comment %} <!-- ------------------------ video------------------------ --> {% endcomment %}
-<div class="list_content">
-    {%for i in disp reversed %} {% comment %} reverse order to print the one which was liked/watched/saved recently {% endcomment %}
-    <div class="vid_list">
-        <a href="displaymovie"><img src="static/images/thumbnail1.png" alt="" class="thumbnail"></a>                             
-        <div class="flex-div">
-                    <img src="static/images/Jack.png" alt="">
-                    <div class="vid-info">
-                        <a href="">{{ i.original_title }}</a>
-                        <p>{{i.duration}} mins</p>
-                        <p>&bull;  {{i.release_date}}</p>
-                        <p>{{i.vote_average}}/10 &#11088;  </p>
-                    </div>
-                    <div id="like-watchlist">
-                        {%if i.movie_id_id not in likedmovies%}
-                        <!-- <button id="like" onclick="liked()" style="margin-bottom: 10px; margin-left: 120px;flex-wrap: wrap;">   Like</button><br> -->
-                        <form action="likedlist" method="POST">
-                            {% csrf_token %}
-                            <button name="likedid" id="like" value="{{ i }}">
-                                <i class="fa fa-thumbs-up"></i>
-                                <span class="icon">Like</span>
-                            </button>
-                        </form>
-                        {%else%}
-                        <button>Liked</button?
-                            {%endif%}
-                            
-                            <form action="watchlist" method="POST">
-                                {% csrf_token %}
-                                
-                                <button name="watchid" value="{{ i }}">   Save  </button>
-                            </form>
-                            <form action="watchedlist" method="POST">
-                                {% csrf_token %}
-                                
-                                <button name="watchedid" value="{{ i }}">   Watch  </button>
-                            </form>
-                            <!-- <a href=""><img  src="static/images/like.png" style=" width: 25px; border-radius: 50%;margin-left: 120px;flex-wrap: wrap;"  alt=""></a>
-                                <br>
-                        <a href=""><img src="static/images/library.png" style=" width: 25px; border-radius: 50%;margin-left: 120px;flex-wrap: wrap;" alt=""></a> -->
-                        
-                    </div>
-                </div>
-            </div>
+        <div class="list_content">
+            {%for movie in disp reversed %} {% comment %} reverse order to print the one which was liked/watched/saved recently {% endcomment %}
+                    {% include 'recommend/videolist.html' %}
             {%endfor %}
             
             
