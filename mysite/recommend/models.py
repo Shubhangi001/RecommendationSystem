@@ -25,17 +25,12 @@ class Movie(models.Model):
 
 class Liked_movies(models.Model):
     movie_id=models.OneToOneField(Movie,on_delete=models.CASCADE)
-    # liked=models.BooleanField(default=False)
 class Watched_movies(models.Model):
     movie_id=models.OneToOneField(Movie,on_delete=models.CASCADE)
-    # watched=models.BooleanField(default=False)
-    # liked=models.BooleanField(default=False)
 class Saved_movies(models.Model):
     movie_id=models.OneToOneField(Movie,on_delete=models.CASCADE)
-    # watched=models.BooleanField(default=False)
 class Searched_movies(models.Model):
     movie_id=models.OneToOneField(Movie,on_delete=models.CASCADE)
-    # searched=models.BooleanField(default=False)
 
 
 

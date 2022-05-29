@@ -126,6 +126,9 @@ nav{
     background: #ccc;
     width: 85%;
 }
+.like-watchlist{
+    margin: 2px;
+}
 .subcribed-list h3{
     font-size: 13px;
     margin: 20px 0;

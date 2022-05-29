@@ -16,37 +16,33 @@
 </head>
 <body >
 
-    {% include 'recommend/nav.html' %}
     {% comment %}  --------------------------sidebar--------------------- - {% endcomment %}
+    {% include 'recommend/nav.html' %}
     {% comment %}  --------------------main---------------- --> {% endcomment %}
 
     <div class="content">
-{% comment %} <!-- ------------------------ video------------------------ --> {% endcomment %}
-<!-- <script src="{%static 'script.js' %}"></script> -->
+{% comment %} <!-- ------------------------ video list------------------------ --> {% endcomment %}
         <div class="list_content">
-            {%for i in moviedisp %}
-            
-            <!-- <div  onclick="getPoster()" class="vid_list" id="term" value= {{i}}   > -->
-            <div onload="getPoster()"   class="vid_list" id="term" value= "{{i}}"   >
-<!-- <div id="poster"></div> -->
+            {%for movie in moviedisp %}
+            <div   class="vid_list" id="term" value= "{{movie.original_title}}"   >
+                    <!-- <div id="poster"></div> -->
                 <!-- <span id="poster"></span> -->
                     <img  src="static/images/thumbnail1.png" alt="" class="thumbnail">
-                <!-- </a>     -->
                                     
                
                 <div class="flex-div">
                     <img src="static/images/Jack.png" alt="">
                     <div class="vid-info">
-                    <strong>{{ i }}</strong>
-                        <p>190 mins</p>
-                        <p>&bull;  20-05-22</p>
-                        <p>4/10 &#11088;  </p>
+                    <strong>{{ movie.original_title }}</strong>
+                        <p>{{movie.duration}} mins</p>
+                        <br><br>
+                        <p>{{movie.vote_average}}/10 &#11088;  </p>
                     </div>
-                    <div id="like-watchlist">
+                    <div id="like-watchlist" style=" margin-left: 10px;">
                         <!-- <button id="like" onclick="liked()" style="margin-bottom: 10px; margin-left: 120px;flex-wrap: wrap;">   Like</button><br> -->
                         <form action="likedlist" method="POST">
                             {% csrf_token %}
-                            <button name="likedid" id="like" value="{{ i }}">
+                            <button name="likedid" id="like" value="{{ movie.id}}">
                                 <i class="fa fa-thumbs-up"></i>
                                 <span class="icon">Like</span>
                             </button>
@@ -54,16 +50,13 @@
                         <form action="watchlist" method="POST">
                             {% csrf_token %}
                       
-                        <button name="watchid" value="{{ i }}">   Save  </button>
+                        <button name="watchid" value="{{ movie.id }}">   Save  </button>
                     </form>
                         <form action="watchedlist" method="POST">
                             {% csrf_token %}
                       
-                        <button name="watchedid" value="{{ i }}">   Watch  </button>
+                        <button name="watchedid" value="{{ movie.id }}">   Watch  </button>
                     </form>
-                        <!-- <a href=""><img  src="static/images/like.png" style=" width: 25px; border-radius: 50%;margin-left: 120px;flex-wrap: wrap;"  alt=""></a>
-                        <br>
-                        <a href=""><img src="static/images/library.png" style=" width: 25px; border-radius: 50%;margin-left: 120px;flex-wrap: wrap;" alt=""></a> -->
 
                     </div>
                 </div>

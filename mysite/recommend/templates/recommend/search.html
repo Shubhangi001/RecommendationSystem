@@ -18,7 +18,6 @@
     {% include 'recommend/nav.html' %}
   <div class="content">
 {% comment %} <!-- ------------------------ video------------------------ --> {% endcomment %}
-<!-- <script src="{%static 'script.js' %}"></script> -->
         <div class="list_content">
             
             {%if searched %}
@@ -28,21 +27,18 @@
 
    
             
-            <!-- <div  onclick="getPoster()" class="vid_list" id="term" value= {{i}}   > -->
-            <div onload="getPoster()"   class="vid_list" id="term" value= "{{i}}"   >
+            <div class="vid_list" id="term" value= "{{movie}}"   >
 <!-- <div id="poster"></div> -->
                 <!-- <span id="poster"></span> -->
-                    <img  src="static/images/thumbnail1.png" alt="" class="thumbnail">
-                <!-- </a>     -->
-                                    
+                    <img  src="static/images/thumbnail1.png" alt="" class="thumbnail">                                    
                
                 <div class="flex-div">
                     <img src="static/images/Jack.png" alt="">
                     <div class="vid-info">
-                    <strong> {{movie}}</strong>
-                        <p>190 mins</p>
-                        <p>&bull;  20-05-22</p>
-                        <p>4/10 &#11088;  </p>
+                    <strong> {{movie.original_title}}</strong>
+                        <p>{{movie.duration}} mins</p>
+                       
+                        <p>{{movie.vote_average}}/10 &#11088;  </p>
                     </div>
                     <div id="like-watchlist">
                         <!-- <button id="like" onclick="liked()" style="margin-bottom: 10px; margin-left: 120px;flex-wrap: wrap;">   Like</button><br> -->
@@ -63,10 +59,6 @@
                       
                         <button name="watchedid" value="{{ i }}">   Watch  </button>
                     </form>
-                        <!-- <a href=""><img  src="static/images/like.png" style=" width: 25px; border-radius: 50%;margin-left: 120px;flex-wrap: wrap;"  alt=""></a>
-                        <br>
-                        <a href=""><img src="static/images/library.png" style=" width: 25px; border-radius: 50%;margin-left: 120px;flex-wrap: wrap;" alt=""></a> -->
-
                     </div>
                 </div>
             </div>

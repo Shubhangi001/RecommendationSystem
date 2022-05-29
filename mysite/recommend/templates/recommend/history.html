@@ -15,9 +15,6 @@
     
     <div class="content">
         {% comment %} <!-- ------------------------ video------------------------ --> {% endcomment %}
-<div id="result">
-    
-</div>
 <div class="list_content">
     {%for i in disp reversed %} {% comment %} reverse order to print the one which was liked/watched/saved recently {% endcomment %}
     <div class="vid_list">
@@ -25,10 +22,10 @@
         <div class="flex-div">
                     <img src="static/images/Jack.png" alt="">
                     <div class="vid-info">
-                        <a href="">{{ i }}</a>
-                        <p>190 mins</p>
-                        <p>&bull;  20-05-22</p>
-                        <p>4/10 &#11088;  </p>
+                        <a href="">{{ i.original_title }}</a>
+                        <p>{{i.duration}} mins</p>
+                        <p>&bull;  {{i.release_date}}</p>
+                        <p>{{i.vote_average}}/10 &#11088;  </p>
                     </div>
                     <div id="like-watchlist">
                         {%if i.movie_id_id not in likedmovies%}
