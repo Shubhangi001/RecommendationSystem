@@ -1,6 +1,7 @@
-from operator import itemgetter
+from operator import itemgetter, mod
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.db.models import Q
 import pandas as pd
 from . import models
 from sklearn.feature_extraction.text import CountVectorizer
@@ -74,33 +75,33 @@ def index(request):
         watched=get_similar_movies(watchedmovies)
         towatch=get_similar_movies(savedmovies)
         searched=get_similar_movies(searchedmovies)
-        for movie in range(0,15):               #for each index find the movie which is most common in all giving 50% weightage
+        for i in range(0,15):               #for each index find the movie which is most common in all giving 50% weightage
                                                 #to liked movies, 30% to saved movies, 15% to watched and 5% to searched
             dicti={}
             for movielist in liked:
-                if movielist[movie] != -1:
-                    if movielist[movie] in dicti:
-                        dicti[movielist[movie]]=dicti[movielist[movie]]+0.5
+                if movielist[i] != -1:
+                    if movielist[i] in dicti:
+                        dicti[movielist[i]]=dicti[movielist[i]]+0.5
                     else:
-                        dicti[movielist[movie]]=0
+                        dicti[movielist[i]]=0
             for movielist in towatch:
-                if movielist[movie] != -1:
-                    if movielist[movie] in dicti:
-                        dicti[movielist[movie]]=dicti[movielist[movie]]+0.3
+                if movielist[i] != -1:
+                    if movielist[i] in dicti:
+                        dicti[movielist[i]]=dicti[movielist[i]]+0.3
                     else:
-                        dicti[movielist[movie]]=0
+                        dicti[movielist[i]]=0
             for movielist in watched:
-                if movielist[movie] != -1:
-                    if movielist[movie] in dicti:
-                        dicti[movielist[movie]]=dicti[movielist[movie]]+0.15
+                if movielist[i] != -1:
+                    if movielist[i] in dicti:
+                        dicti[movielist[i]]=dicti[movielist[i]]+0.15
                     else:
-                        dicti[movielist[movie]]=0
+                        dicti[movielist[i]]=0
             for movielist in searched:
-                if movielist[movie] != -1:
-                    if movielist[movie] in dicti:
-                        dicti[movielist[movie]]=dicti[movielist[movie]]+0.05
+                if movielist[i] != -1:
+                    if movielist[i] in dicti:
+                        dicti[movielist[i]]=dicti[movielist[i]]+0.05
                     else:
-                        dicti[movielist[movie]]=0
+                        dicti[movielist[i]]=0
             maxrecommovie = max(dicti, key= lambda x: dicti[x]) 
             disp.append(maxrecommovie)
     return render(request,'recommend/index.html',context={'moviedisp':disp,'likedmovies':likedmovies})
@@ -154,7 +155,12 @@ def trending(request):
             disp.append(movie_sorted_on_rating[i])
     return render(request,'recommend/history.html',context={'disp':disp,'likedmovies':likedmovies,'watchedmovies':watchedmovies,'savedmovies':savedmovies})
 def search_movies(request):
-    return render(request,'recommend/search.html')
+    if(request.method=="POST"):
+        searched=request.POST.get('searched')
+        movies=models.Movie.objects.filter(Q(original_title__contains=searched) or Q(cast__contains=searched) or Q(genres__contains=searched) or Q(keywords__contains=searched) or Q(spoken_language__contains=searched))
+        return render(request,'recommend/search.html',{'searched':searched,'movies':movies})
+    else:
+        return HttpResponseRedirect('index')
 
 #list for liked movies - movie id -  - this needs to be stored in db as a table
 #list of watched movies - movie id 

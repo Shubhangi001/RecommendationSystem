@@ -8,7 +8,7 @@
         <div class="search_box flex-div">
             <form method="post" action="search_movies">
                 {%csrf_token%}
-            <input type="text" id= "search_input">
+            <input type="text" id= "search_input" name="searched">
             <!-- <img src="static/images/search.png" alt=""> -->
             <button  type="submit">Search</button>
         </form>
