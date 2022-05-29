@@ -11,13 +11,13 @@ from sklearn.metrics.pairwise import cosine_similarity
 #--------------------------------Getting movie similarity matrix using cosine similarity from sklearn---------------------------------- 
 
 df = pd.read_csv(r"movies.csv")
-features = ['keywords', 'cast', 'genres', 'director']
+features = ['keywords', 'cast', 'genres']
 #replace any rows having NaN values with a space, so that it does not generate an error while running 
 for feature in features:
     df[feature] = df[feature].fillna('')
 #adding a new column, combined_features to our dataframe and apply the above function to each row (axis = 1).
 def combined_features(row):
-    return row['keywords']+" "+row['cast']+" "+row['genres']+" "+row['director']
+    return row['keywords']+" "+row['cast']+" "+row['genres']
 df["combined_features"] = df.apply(combined_features, axis =1)
 #CountVectorizer to convert collection of text documents to vector of term or token counts
 cv = CountVectorizer()
@@ -37,7 +37,7 @@ movie_sorted_on_rating=[]
 for i in movie_sorted:
     m=models.Movie.objects.get(id=i[0])
     movie_sorted_on_rating.append(m)
-#-------------------------------------views starts here------------------------\
+#-------------------------------------views starts here------------------------\  delete from recommend_liked_movies;
 def index(request):
     def get_similar_movies(l):   # get 15 most similar movies for the given movie history
                 res=[]
@@ -129,7 +129,6 @@ def index(request):
 def displaymovie(request):
     return render(request,'recommend/displaymovie.html')
 def likedlist(request):
-    likedmovies=models.Liked_movies.objects.all()
         
     if(request.method =="POST"):
         movid=request.POST.get('likedid')
@@ -143,7 +142,6 @@ def watchlist(request):
         return HttpResponseRedirect('index')
     return HttpResponseRedirect('index')
 def watchedlist(request):
-    watchedmovies=models.Watched_movies.objects.all()
     if(request.method =="POST"):
         movid=request.POST.get('watchedid')
         models.Watched_movies.objects.get_or_create(movie_id_id=int(movid))
