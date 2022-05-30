@@ -2,7 +2,7 @@
 Microsoft engage
 
 ## Description
-RecoMovie is a movie recommendation website where the movies are shown based on user's search,save, like, watch activities. We make a similar movies' matrix using cosine similarity based on keywords, cast and genres, and from this matrix we fetch the most similar movies of the movies in user's activities using searting and searching.
+RecoMovie is a movie recommendation website where the movies are shown based on user's search,save, like, watch activities. We make a similar movies' matrix using cosine similarity based on keywords, cast and genres from a database of around 4000 movies, and from this matrix we fetch the most similar movies of the movies in user's activities using sorting and searching.
 We can also search for movies in the search engine and get related movies based on title, keywords, cast, genres, and spoken language.
 
 ## Install requirements:
