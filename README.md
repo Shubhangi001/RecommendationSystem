@@ -13,4 +13,5 @@ scikit-learn version 1.22.3 <br>
 django version 3.2.7 <br>
 
 ## To run:
+Clone the repository and make sure that the above mentioned libraries are installed.
 Execute python manage.py runserver in the location mysite/ (Same path as that of manage.py file location) and click on the url that appears on the command line
