@@ -15,3 +15,7 @@ django version 3.2.7 <br>
 ## To run:
 Clone the repository and make sure that the above mentioned libraries are installed.
 Execute python manage.py runserver in the location mysite/ (Same path as that of manage.py file location) and click on the url that appears on the command line
+
+## Main Page
+
+![image](https://github.com/Shubhangi001/RecommendationSystem/assets/73179209/5533e248-b052-4311-b2d0-10579da7ac06)
