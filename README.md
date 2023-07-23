@@ -1,5 +1,4 @@
 # Movie Recommendation System
-Microsoft engage
 
 ![image](https://github.com/Shubhangi001/RecommendationSystem/assets/73179209/1a6a9bbc-cfdc-4e59-b8bb-809e8da3c5d1)
 
